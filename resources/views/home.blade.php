@@ -1,4 +1,3 @@
-/ resources/views/home.blade.php
 @extends('layouts.app')
 @vite('resources/css/app.css')
 @section('content')
@@ -13,21 +12,21 @@
     <div id="festivals" class="container mx-auto py-12">
         <h3 class="text-4xl font-bold mb-8 text-center">Populaire Festivals</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
-                <h4 class="text-2xl font-semibold mb-2">Tomorrowland</h4>
-                <p class="text-gray-600 mb-4">België - 2024</p>
-                <a href="#" class="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Boek Nu</a>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
-                <h4 class="text-2xl font-semibold mb-2">Sziget Festival</h4>
-                <p class="text-gray-600 mb-4">Hongarije - 2024</p>
-                <a href="#" class="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Boek Nu</a>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
-                <h4 class="text-2xl font-semibold mb-2">Coachella</h4>
-                <p class="text-gray-600 mb-4">Verenigde Staten - 2024</p>
-                <a href="#" class="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300">Boek Nu</a>
-            </div>
+            @foreach($festivals as $festival)
+                <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300">
+                    <h4 class="text-2xl font-semibold mb-2">{{ $festival->name }}</h4>
+                    <p class="text-gray-600 mb-4">{{ $festival->location }} - {{ $festival->date->format('Y') }}</p>
+                    <form method="POST" action="{{ route('cart.add') }}">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $festival->id }}">
+                        <input type="hidden" name="name" value="{{ $festival->name }}">
+                        <input type="hidden" name="location" value="{{ $festival->location }}">
+                        <input type="hidden" name="date" value="{{ $festival->date->format('d-m-Y') }}">
+                        <input type="hidden" name="price" value="{{ $festival->price }}">
+                        <button type="submit" class="mt-4 inline-block bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">Boek Nu</button>
+                    </form>
+                </div>
+            @endforeach
         </div>
     </div>
 @endsection

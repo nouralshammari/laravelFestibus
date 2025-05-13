@@ -6,4 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 class Festival extends Model {
     use HasFactory;
     protected $fillable = ['name', 'location', 'date', 'price'];
+
+    protected $casts = [
+        'date' => 'date',
+    ];
+
 }
